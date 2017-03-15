@@ -1,0 +1,243 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, italian]{babel}
+
+\usepackage{amsmath}
+
+\begin{document}
+	
+	\section{Sommario Lezioni}
+	
+		\subsection{Modello lineare semplice}
+		
+			\subsubsection{Valutazione del modello}
+				Stimato un modello, quanto si comporta bene? Per rispondere a questa domanda dobbiamo avere un modello:
+				\begin{itemize}
+					\item buono nel training set;
+					\item buono per prevedere al di fuori del training set (test set).
+				\end{itemize}
+				
+				Gli strumenti a nostra disposizione sono:
+				\begin{itemize}
+					\item Valutazioni numeriche;
+					\item Valutazioni grafiche.
+				\end{itemize}
+				
+				\paragraph{Indice di determinazione $R^2$} (valutazione numerica)
+				\begin{itemize}
+					\item $0 \leq R^2 \leq 1$;
+					\item più $\hat{y}_i \approx y_i$ più $R^2$ tende a 1;
+				\end{itemize}
+				
+				\subparagraph{Interpretare $R^2$}
+				\begin{itemize}
+					\item $R^2 > 90\%$ allora modello buono nel training set;
+					\item $R^2 < 90\%$ modello mediocre;
+				\end{itemize}
+				
+				\subparagraph{Problematiche di $R^2$ (???)}
+				 Un $R^2$ molto elevato seppur indicante un modello buono può essere sintomo di qualcosa di errato nel modello. RSS deve avere un valore basso per un buon $R^2$ mentre RSE deve essere un valore piccolo perché il modello si adatti bene.
+				 
+				
+				\paragraph{Analisi dei residui}
+				
+					\begin{enumerate}
+						\item \textbf{Grafico dei residui}: un buon modello presenta residui senza andamenti deterministici, la distribuzione casuale di essi è l'ideale. Molto spesso in questa analisi si vedone delle \textbf{osservazioni anomale}, esse sono valori rilevati molto lontani dagli altri e possono invalidare enormemente il modello; possono essere di due tipologie:
+						\begin{itemize}
+							\item \textbf{outlier} non impattano nel modello;
+							\item \textbf{leva} impattano nel modello.
+						\end{itemize}
+						Le osservazioni anomale sono evidenziate da R e possono quindi essere valutate singolarmente.
+						
+						\item \textbf{Previsione e intervallo di previsione}: si calcola un intervallo di confidenza per costruire introrno alla retta di regressione le \textbf{bande dell'intervallo di confidenza}, l'intervallo indica la percentuale dei valori osservati che dovrebbe stare all'interno delle bande.
+					\end{enumerate}
+					
+					
+	
+	
+	\section{Linear Regression}
+		
+		\subsection{Simple Linear Regression}
+			It is an approach for predicting a quantitative response $Y$ on the basis of a single predictor variable $X$.
+			
+			\begin{equation}
+				Y \approx \beta_0 + \beta_1 X
+			\end{equation}
+		
+			\begin{equation}
+				\hat{y} = \hat{\beta_0} + \hat{\beta_1}x				
+			\end{equation}
+			
+			where $\hat{y}$ indicates a prediction of $Y$ on the basis of $X=x$.
+		
+			\subsubsection{Estimated the coefficients}
+				Let $\hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i$:			
+				\paragraph{\textit{ith} residual}
+				\begin{equation}
+					e_i = y_i - \hat{y}_i 
+				\end{equation}
+				
+				\paragraph{Residual sum of squares}
+				\begin{equation}\label{eq:RSS}
+					RSS = e_1^2 + e_2^2 + \dots + e_n^2 = \sum_{i=1}^n e_i^2
+				\end{equation}		
+				
+				\paragraph{Least square for $\beta_0$ and $\beta_1$}
+				\begin{description}
+					\item $\beta_0$: expected value of $Y$ when $X = 0$.
+					\item $\beta_1$: the average increase in $Y$ associated with a one-unit increase in $X$.		
+				\end{description}
+				
+				\begin{align}
+						\hat{\beta_1} ={}& \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2},
+				\\
+						\hat{\beta_0} ={}& \bar{y} - \hat{\beta}_1 \bar{x}
+				\end{align}
+				
+			\subsubsection{Accuracy of the coefficients estimates}
+				
+				\paragraph{Standard error}
+				\begin{align}
+					SE^2(\hat{\beta_1}) ={}& \sigma^2 \Bigg[ \frac{1}{n} + \frac{\bar{x}^2}{\sum_{i=1}^{n}(x-i - \bar{x})^2} \Bigg], 
+					\\
+					SE^2(\hat{\beta_0}) ={}& \frac{\sigma^2}{\sum_{i=1}^n(x_i - \bar{x}^2}
+				\end{align}		
+				
+				Where $\sigma^2 = Var(\epsilon)$. In general $\sigma$ (standard deviation) is unknown, but can be estimated from the data with the calculation of the \textit{residual standard error}.
+				
+				\paragraph{Residual standard error}
+				\begin{equation}
+					RSE = \sqrt{\frac{RSS}{n - 2}}
+				\end{equation}		
+				
+				\paragraph{Confidence intervals}
+					A 95\% confidence interval is defined as a range of values such that with 95\% probability, the range will contain the true unknown value of the parameter.
+					For linear regression:
+					\begin{equation}
+						\hat{\beta}_1 \pm 2 \cdot SE(\hat{\beta}_1), \quad \quad
+						\hat{\beta}_0 \pm 2 \cdot SE(\hat{\beta}_0)						
+					\end{equation}
+					
+					
+					\textbf{N.B.} This mean that for $\beta_1$ there is approximately 95\% chance that the interval:
+					\begin{align*}
+						\Big[ \hat{\beta}_1 - 2 \cdot SE(\hat{\beta}_1), \quad \hat{\beta}_1 + 2 \cdot SE(\hat{\beta}_1) \Big]
+					\end{align*}																			will contain the true value of $\beta_1$.
+						
+			\subsubsection{Accuracy of the model}	
+				
+				\paragraph{Residual standard error}	
+					RSE is an estimate of standard deviation of $\epsilon$. Hence it is the average amount that response will deviate from the true regression line.
+				\begin{equation}\label{eq:RSE}
+					RSE = \sqrt{\frac{RSS}{n - 2}} = \sqrt{\frac{1}{n - 2} \sum_{i=1}^n (y_i - \hat{y}_i)^2}
+					%\tag{\ref{eq:RSE}}
+				\end{equation}
+				The RSE is considered a measure if the lack of fit of the model:
+				\begin{itemize}
+					\item if $\hat{y}_i \approx y_i$ for $i = 1,\dots, n$ the model fits the data very well (RSE small).
+					\item if $\hat{y}_i$ is very far from $y_i$ for one or more observation the model doesn't fit the data well (RSE quite large).
+				\end{itemize}
+								
+				\paragraph{$R^2$ statistic}
+					$R^2$ measures the proportion of variability in Y that can be explained using X. It always lies between 0 and 1.
+				\begin{equation}
+					R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS}
+				\end{equation}
+				
+				where \textit{total sum of squares} (TSS) measures the total variance in the response Y, it is the amount of variability in the response before the regression is performed.:
+				\begin{equation}
+					TSS = \sum(y_i - \bar{y})^2
+				\end{equation}
+				
+				\begin{itemize}
+					\item if $R^2$ is close to 1 indicates that a large proportion of the variability in the response has been explained by the regression.
+					\item if $R^2$ is near 0 indicates that the regression did not explain much of the variability in the response.
+				\end{itemize}
+				
+				\paragraph{Correlation} It is a measure of the linear relationship between X and Y like $R^2$. In the simple linear regression $R^2 = r^2$.
+				\begin{equation}
+					r = Cor(X,Y) = \frac{\sum_{i=1}^n (x_i - \bar{x}) (y_i - \bar{y})}{\sqrt{ \sum_{i=1}^n (x_i - \bar{x})^2 } \sqrt{ \sum_{i=1}^n (y_i - \bar{y})^2}}
+				\end{equation}
+				
+			\subsection{Multiple Linear Regression}
+				It is the extension of simple linear regression model so that it can directly accommodate multiple predictors ($p$ predictors).
+				\begin{equation}
+					Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p + \epsilon
+				\end{equation}
+				\begin{equation}
+					\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + ... + \hat{\beta}_p x_p
+				\end{equation}
+				
+				where $\beta_j$ (\textit{j}th predictor) is the average effect on Y of a one unit increase in $X_j$.
+				
+				\subsubsection{Estimating coefficients}
+					The multiple regression coefficient estimates have somewhat complicated forms that are most easily represented using matrix algebra. The book do not provide them but use formula of language R.					
+					
+					\paragraph{Residual sum of squares}
+					\begin{equation}
+					\begin{split}
+						RSS ={} & \sum_{i=1}^n (y_i - \hat{y}_i)^2 \\
+							={} & \sum_{i=1}^n (y_i - \hat{\beta}_0 + \hat{\beta}_1 x_i1 + \hat{\beta}_2 x_i2 + ... + \hat{\beta}_p x_ip )^2
+					\end{split}
+					\end{equation}
+					
+				\subsubsection{Understand Multiple Linear Regression}
+					
+					\paragraph{Relationship response and predictors}
+					In order to determine if there is a relationship between response and predictors we can check if $\beta_1=\beta_2=\dots=\beta_p = 0$. We test the \textit{null hypothesis}:
+					\begin{equation}
+						H_0 : \beta_1 = \beta_2 = \dots = \beta_p = 0
+					\end{equation}
+					\begin{equation}
+						H_\alpha : \text{at least one } \beta_j \text{ is non-zero}
+					\end{equation}
+					
+					\subparagraph{F-statistic}
+					\begin{equation}
+						F = \frac{(TSS - RSS)/p}{RSS / (n - p - 1)}
+					\end{equation}
+					where $TSS = \sum_{i=1}^n (y_i - \bar{y})^2$ and $RSS = \sum_{i=1}^n (y_i - \hat{y}_i)^2$.
+					
+					\begin{itemize}
+						\item When there is no relationship between the response and the predictors F-statistic takes on a value close to 1.
+						\item If $H_\alpha$ is true we expected F-statistic to be greater than 1.
+					\end{itemize}
+					
+					Hence a larger F-statistic suggests that at least one of the predictor must be related to response.
+						\begin{itemize}
+							\item If $n$ is large and F-statistic is just a little larger than 1 might still provide evidence against $H_0$. ($n$ large $\land$ $F > 1 \Rightarrow$ there is a relation)
+							\item If $n$ is small we need a larger F-static. ($n$ small $\land$ $F \gg 1 \Rightarrow$ there is a relation)
+						\end{itemize}															
+					\paragraph{Deciding on Important Variables}
+						\textit{Variable selection} is the task od determining which predictors are associated with the response, in order to fit a single model involving only those predictors.
+						There are a total of $2^p$ models that contains subset of $p$ variables. Unless $p$ is very small we cannot consider all models. There are 3 classical approaches:
+						\begin{itemize}
+							\item \textbf{Forward selection} begin with the \textit{null model} we then add the varaible that results in the lowest RSS for the new two-variable model.
+							\item \textbf{Backward selection} (only if $p > n$) start with all variable in the model and remove the variable with the largest p-value.
+							\item \textbf{Mixed selection} start with no variable in the model, we add the variable that provides the best fit. If at any point the p-value for one of the variables rises above certain threshold, then we remove that variable.
+						\end{itemize}
+						
+						\paragraph{Model Fit}
+							The common numerical measures of model fit are the RSE and $R^2$.
+							
+							An $R^2$ value close to 1 indicates that the model explains a large portion of the variance in the response variable. $R^2$ will always increase when more variables are added to the model, even if those variables are only weakly associated with the response. In fact if we add a new variable and this leads to a tiny increase in $R^2$ this could be an additional evidence that that variable can be dropped from the model, otherwise it can cause overfitting.
+							
+							When we add a new variable and it leads to a reduce in RSE, we have increased the accuracy of the model. Remember that model with model with more variables can have higher RSE if the decrease in RSS is small relative to the increase in p (see \ref{eq:RSE}).
+							
+						\paragraph{Predictions}
+							We can compute a \textit{confidence interval} in order to determine how close $\hat{Y}$ will be to $Y$. The response value cannot be predicted perfectly because of the random error $\epsilon$ in the model. We use \textit{prediction intervals for know how much $Y$ will vary from $\hat{Y}$}.
+							
+							
+					\subsection{Other consideration on Regression Model}
+					
+					
+					
+				
+		
+		
+	\section{Appendix}
+	
+		
+
+\end{document}

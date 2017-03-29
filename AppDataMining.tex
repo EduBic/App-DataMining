@@ -238,7 +238,7 @@
 							\paragraph{More than two levels}
 							
 						\subsubsection{Extensions for the Linear Model}
-							The standard linear regression model makes two restrictive assumptions. Relation between predictors and response is:
+							The standard linear regression model makes \textbf{two restrictive assumptions}. Relation between predictors and response is:
 							\begin{itemize}
 								\item \textbf{linear}: the change in response due to a one-unit change of a predictors is constant.
 								\item \textbf{additive}: the effect of predictor are independent from other predictors.
@@ -258,7 +258,7 @@
 								
 								If the p-value for the interaction term is low, this is a strong evidence for $\beta_3 \neq 0$. So the relationship isn't additive.	
 								
-								\subparagraph{Hierarchical principle} Of we include an interaction in a model, we should also include the main effects, even if the p-value associated with their coefficients are not significant.							
+								\subparagraph{Hierarchical principle} \textit{Of we include an interaction in a model, we should also include the main effects, even if the p-value associated with their coefficients are not significant.}							
 								
 							
 							\paragraph{Accommodate Non-linear Relationship}																\textbf{Polynomial regression} is a simple way to extend the linear model to accommodate non-linear relationship.
@@ -268,7 +268,122 @@
 								\end{align*}
 								It is still a linear method.
 						
-					
+					\subsubsection{Potential problems}
+						
+						\paragraph{1. Non-linearity of the Data}
+						\begin{description}
+							\item[Problem:] The linear regression model assumes that there is a straight-line relationship between the predictors and the response.
+							
+							\item[Analysis:] Residual plots are a graphical tool for identify non-linearity;
+								\begin{itemize}
+									\item In \textbf{simple linear regression model} we can plot the residuals, $e_i = y_i - \hat{y_i}$, versus the predictor $x_i$.
+									\item In \textbf{multiple regression model} we instead plot the residuals versus the predicted values $\hat{y_i}$.
+								\end{itemize}
+							If the plot exhibit a recognizable shape or pattern there is non-linearity in the data.
+									
+							\item[Possible solution:] If the residual plot indicates that there are non-linear associations in the data, then a simple approach is to use non-linear transformation of the predictors, such as $\log X, \sqrt{X}$ and $X^2$.
+						\end{description}
+						
+						
+						\paragraph{2. Correlation of Error Terms}
+						\begin{description}
+							\item[Problem:]	An important assumption of the linear regression model us that the error terms, $\epsilon_1, \epsilon_2, \dots, \epsilon_n$, are uncorrelated.
+							
+							\item[Analysis:] If there is correlation among the error terms:
+							\begin{itemize}
+								\item Estimated standard errors will tend to underestimate the true standard errors. 
+								\item Confidence and prediction intervals will be narrower than they should be.
+								\item p-values associated with the model will be lower than they should be.
+							\end{itemize}
+							In conclusion we may have an unwarranted sense of confidence in our model.
+							
+							\item[Conclusions:] In general, the assumption of uncorrelated errors is extremely is extremely important for linear regression as well as for other statistical methods, and good experimental design is crucial in order to mitigate the risk of such correlations.		
+						
+						\end{description}
+						
+						
+						\paragraph{3. Non-constant Variance of Error Terms}
+						\begin{description}
+							\item[Problem:]	Another assumption of the linear regression modle is that the error terms have a constant variance, $Var(\epsilon_i) = \sigma^2$. The standard errors, confidence intervals and hypothesis tests associated with the linear model rely upon this assumption. Often it is the case that the variances of the error terms are non-constant.
+							
+							\item[Analysis:] One can identify non-constant variances in the errors from the presence of a funnel shape in the residual plot (Residuals versus fitted values).
+							
+							\item[Possible solution:] \quad
+								\begin{itemize}
+									\item One possible solution is to transform the response $Y$ using a concave function such as $\log Y$ or $\sqrt{Y}$.	
+									\item If we have a good idea of the variance of each response, the remedy is to fit our model by weighted least squares, with weights proportional to the inverse variances.	
+								\end{itemize}
+						
+						\end{description}
+						
+							
+						\paragraph{4. Outliers}
+						\begin{description}
+							\item[Problem:]	An outlier is a point for which $y_i$ is far from the value predicted by the model. We need to identify it.	
+							
+							\item[Analysis:] Even if an outlier does not have much effect on the lest squares fit, it can cause other problems.
+							\begin{itemize}
+								\item It impacts on $RSE$. Since $RSE$ is used to compute all confidence intervals and p-values, a single point can have implications for the interpretation of the fit.
+								\item Inclusion of the outlier causes the $R^2$ to decline.
+							\end{itemize}
+							Residual plots can be used to identify outliers, but it can be difficult to decide how large a residual needs to be before we consider the point to be an outlier. To address this problem, we can plot the studentized residuals, computed by $|e_i/\hat{SE_i}|$, if it is greater than 3 it is a possible outlier.
+							
+							\item[Possible solution:] simply remove the observation, however an outlier may instead indicate a deficiency with the model, such as a missing predictor.
+							
+						
+						\end{description}
+							
+							
+						\paragraph{5. High leverage Points}
+						\begin{description}
+							\item[Problem:]	They are observations with high leverage have an unusual value for $x_i$. High leverage observations tend to have a sizable impact on the estimated regression line. Any problem with these points may invalidate the entire fit.
+							
+							\item[Analysis:] We can look for observations for which the predictor value is outside of the normal range of the observations.
+							In multiple regression model it is possible to have an observation that is well within the range of each individual predictor's value, but that is unusual in terms of the full set of predictors. The problem is more pronounced with more than two predictors.
+							
+							We compute the leverage statistic to quantify an observation leverage. A large value of this indicates an observation with high leverage.
+							\begin{equation}
+								h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{i'=1}^n (x_{i'} - \bar{x})^2}
+							\end{equation}
+							Properties of equation:
+							\begin{itemize}
+								\item $h_i$ increase with the distance of $x_i$ from $\bar{x}$.
+								\item The leverage statistic $h_i$ is always between $1/n$ and 1.
+								\item The average leverage for all the observations is always equal to $(p + 1)/n$.
+							\end{itemize}
+							If an observation has $h_i$ that greatly exceeds $(p + 1)/n$ then we may suspect that the corresponding point has high leverage.
+							If an observation has high leverage statistic and high studentized residual it is an outlier as well as a high leverage observation.
+							
+							\item[Possible solution:] Remove the observation.			
+						
+						\end{description}
+							
+							
+						\paragraph{6. Collinearity}
+						\begin{description}
+							\item[Problem:] It refers to the situation in which two or more predictor variables are closely related to one another. If there collinearity it can be difficult to separate out the individual effects of collinear variables on the response.
+							
+							\item[Consequences:] Since collinearity reduces the accuracy of the estimates of the regression coefficients, 
+								\begin{itemize}
+									\item It causes the standard error for $\hat{\beta_j}$ to grow. 
+									\item Consequently, collinearity results in a decline in the t-static.
+									\item The power of the hypothesis test is reduced. We may fail to reject $H_0: \beta_j = 0$.
+								\end{itemize}
+							
+							\item[Analysis:] \quad
+							\begin{itemize}
+								\item To detect collinearity we look at the correlation matrix of the predictors. An element of this matrix that is large in absolute value indicates a pair of highly correlated variables. Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix	 (\textbf{multicollinearity}).
+								\item A way to asses multicollinearity is to compute the variance inflation factor (VFI). The VIF is the ratio of the variance of $\hat{\beta_j}$ when fitting the full model divided by the variance of $\hat{\beta_j}$ if fit on its own. The smallest value of VIF is 1. A value that exceeds 5 or 10 indicates a problematic amount of collinearity.
+							\end{itemize}														
+														
+																
+							\item[Possible solution:] \quad		
+							\begin{itemize}
+								\item To drop one of the problematic variables from the regression.
+								\item To combine the collinear variables together into a single predictor.			
+							\end{itemize}								
+						
+						\end{description}
 				
 		
 		

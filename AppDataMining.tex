@@ -385,9 +385,74 @@
 						
 						\end{description}
 				
+	\section{Classification}
+		It is a set of approaches for predicting qualitative responses.
+		\begin{itemize}
+			\item Logistic regression.
+			\item Linear discriminant analysis
+			\item K-nearest neighbors.
+		\end{itemize}
+	
+	\subsection{Why Not Linear Regression}
+		Linear regression with qualitative response is ok when:
+		\begin{itemize}
+			\item For binary response regression by least square does make sense.
+			\item For more than 2 type of response that take on a natural ordering, such as mild, moderate and severe.
+		\end{itemize}
+		But in general there is no natural way to convert qualitative response variable with more than two levels into a quantitative resoinse that is ready for linear regression.
+		
+	
+	\subsection{Logistic Regression}
+		Logistic regression models the probability that $Y$ belongs to a particular category.
+	
+		\subsubsection{The Logistic Model}
+			We need to model the relationship between $p(x)=Pr(Y=1|X)$ and $X$.
+			With:
+			\begin{equation}
+				p(X) = \beta_0 + \beta_1 X
+			\end{equation}
+			we don't predict a probability that falls between 0 and 1. We must model $p(X)$ using a function that gives outputs between 0 and 1 fir all values of $X$. We use the logistic function:
+			\begin{equation}
+				p(X) = \frac{e^{\beta_0 + \beta_1 X}}{1 - e^{\beta_0 + \beta_1 X}}
+			\end{equation}
+			The logistic function always produce an S-shaped curve.
+			
+			\paragraph{Odds}
+			\begin{equation}
+				\frac{p(X)}{1 - p(X)} = e^{\beta_0 + \beta_1 X}
+			\end{equation}
+			Values of the odds close to 0 and $\inf$ indicate very low and very high probabilities of, respectively.
+			
+			\paragraph{Logit}
+			\begin{equation}
+				log \Bigg( \frac{p(X)}{1 - p(X)} \Bigg) = \beta_0 + \beta_1 X
+			\end{equation}
+			So increasing $X$ by one unit changes the logit by $\beta_1$, or equivalently it multiplies the odds by $e^{\beta_1}$.
+			
+			\hspace{1cm}
+			
+			The amount that $p(X)$ changes due to a one unit change in $X$ will depend on the current value of $X$.
+			Regardless of the value of $X$:
+			\begin{itemize}
+				\item if $\beta_1$ is negative then increasing $X$ will be associated with increasing $p(X)$.
+				\item if $\beta_1$ is positive then increasing $X$ will be associated with decreasing $p(X)$.
+			\end{itemize}
+			\textbf{N.B.} There isn't a straight-line relationship between $p(X)$ and $X$.
+					
+		\subsubsection{Estimating the Regression Coefficients}
+		
+		\subsubsection{Making Predictions}
+		
+		\subsubsection{Multiple Logistic Regression}
+		
+		\subsubsection{Logistic Regression for > 2 Response Classes}
 		
 		
-	\section{Appendix}
+	\subsection{Linear Discriminant Analysis}
+	
+		
+		
+	%\section{Appendix}
 	
 		
 
